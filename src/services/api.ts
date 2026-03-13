@@ -7,6 +7,9 @@ import {
   HedgeFundRequest
 } from '@/services/types';
 
+const ngrokHeaders = {
+  'ngrok-skip-browser-warning': 'true',
+};
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export const api = {
@@ -16,7 +19,9 @@ export const api = {
    */
   getAgents: async (): Promise<Agent[]> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/hedge-fund/agents`);
+      const response = await fetch(`${API_BASE_URL}/hedge-fund/agents`,{
+        headers: ngrokHeaders,
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -34,7 +39,9 @@ export const api = {
    */
   getLanguageModels: async (): Promise<LanguageModel[]> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/language-models/`);
+      const response = await fetch(`${API_BASE_URL}/language-models/`,{
+        headers: ngrokHeaders,
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -110,6 +117,7 @@ export const api = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true',
       },
       body: JSON.stringify(backendParams),
       signal,
